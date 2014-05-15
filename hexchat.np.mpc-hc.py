@@ -17,4 +17,4 @@ def now_playing(word, word_eol, userdata):
 	return hexchat.EAT_ALL;
 
 hexchat.hook_command('np', now_playing, help='"/np" to display currently playing MPC-HC media')
-hexchat.prnt('mpc.hc.np.py loaded')
+hexchat.prnt('hexchat.np.mpc-hc.py loaded')
