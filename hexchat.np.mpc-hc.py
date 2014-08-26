@@ -14,18 +14,15 @@ def now_playing(word, word_eol, userdata):
 		hexchat.prnt('Nothing open in MPC-HC')
 		return
 	line = re.search('&laquo;\s(.*?)\s&bull;\s(.*?)\s\&bull;\s(.*?)\s&bull;\s(.*?)\s&raquo;', page)
-	try:
-		if word[1] == 'v' or word[1] == 'full':
-			hexchat.command('SAY np: {1} @ {2}, {3} with {0}'.format(line.group(1), line.group(2), line.group(3), line.group(4)))
-		else:
-			hexchat.command('SAY np: '+line.group(2))
-	except IndexError:
+	if len(word) > 1 and (word[1] == 'v' or word[1] == 'full'):
+		hexchat.command('SAY np: {1} @ {2}, {3} with {0}'.format(line.group(1), line.group(2), line.group(3), line.group(4)))
+	else:
 		hexchat.command('SAY np: '+line.group(2))
-	return hexchat.EAT_ALL;
+	return hexchat.EAT_ALL
 
 def unload_callback(userdata):
 	hexchat.prnt('RIP np script')
 
 hexchat.hook_command('np', now_playing, help='"/np" to display currently playing MPC-HC media')
-hexchat.hook_unload('unload_callback')
+hexchat.hook_unload(unload_callback)
 hexchat.prnt('hexchat.np.mpc-hc.py loaded')
