@@ -23,5 +23,9 @@ def now_playing(word, word_eol, userdata):
 		hexchat.command('SAY np: '+line.group(2))
 	return hexchat.EAT_ALL;
 
+def unload_callback(userdata):
+	hexchat.prnt('RIP np script')
+
 hexchat.hook_command('np', now_playing, help='"/np" to display currently playing MPC-HC media')
+hexchat.hook_unload('unload_callback')
 hexchat.prnt('hexchat.np.mpc-hc.py loaded')
