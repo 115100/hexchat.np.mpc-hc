@@ -1,6 +1,5 @@
 # Inspired by https://github.com/mpc-hc/snippets
-import re
-
+from bs4 import BeautifulSoup
 import hexchat
 import requests
 
@@ -12,16 +11,15 @@ __module_description__ = 'MPC-HC Now Playing script'
 def now_playing(*_):
 
     try:
-        page = requests.get('http://127.0.0.1:13579/info.html').text
-    except:
+        resp = requests.get('http://127.0.0.1:13579/info.html')
+        resp.raise_for_status()
+    except requests.exceptions.HTTPError:
         hexchat.prnt('Nothing open in MPC-HC')
         return
 
-    line = re.search('&laquo;\s(.*?)\s&bull;'
-                     '\s(.*?)\s\&bull;\s(.*?)'
-                     '\s&bull;\s(.*?)\s&raquo;', page)
+    soup = BeautifulSoup(resp.text)
 
-    hexchat.command('SAY np: '+line.group(2))
+    hexchat.command('SAY np: ' + soup.p.string)
 
     return hexchat.EAT_ALL
 
