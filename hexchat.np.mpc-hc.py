@@ -17,7 +17,7 @@ def now_playing(*_):
         hexchat.prnt('Nothing open in MPC-HC')
         return
 
-    soup = BeautifulSoup(resp.text)
+    soup = BeautifulSoup(resp.text, "html.parser")
 
     hexchat.command('SAY np: ' + soup.p.string)
 
